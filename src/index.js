@@ -1,10 +1,10 @@
 const application = require('./application');
+const {config} = require('./configs/config');
 
 let server;
-const port = 3000
 
-server = application.listen(port, () => {
-    console.log(`Listening to port ${port}`);
+server = application.listen(config.app.port, () => {
+    console.log(`Listening to port ${config.app.port}`);
 });
 
 //Capture the terminal
