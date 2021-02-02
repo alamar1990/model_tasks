@@ -12,14 +12,12 @@ const schema = new Schema({
             end: Date,
         },
         // The reference of task or objective in the current section
-        sections_tasks: [{
+        tasks_objectives: [{
             type: Schema.Types.ObjectId,
-            required: true,
-            refPath: 'sectionTaskDocument',
+            refPath: 'tasksObjectivesDocument',
         }],
-        sectionTaskDocument: {
+        tasksObjectivesDocument: {
             type: String,
-            required: true,
             enum: ['Task', 'Objective']
         },
     },

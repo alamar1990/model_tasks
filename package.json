@@ -7,7 +7,7 @@
   "license": "MIT",
   "scripts": {
     "dev": "nodemon -r dotenv/config src/index.js --exec babel-node",
-    "test": "jest --runInBand ./test"
+    "test": "jest --runInBand --testEnvironment=node ./test"
   },
   "devDependencies": {
     "@babel/cli": "^7.12.10",

@@ -16,7 +16,7 @@ const schema = new Schema({
             type: Date,
             validate: {
                 validator: function() {
-                    return this.phone.length <= 2;
+                    return this.dates.length <= 2;
                 },
                 message: 'El limite maximo de fechas es de 2'
             }

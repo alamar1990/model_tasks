@@ -12,21 +12,18 @@ afterEach(async () => {
     // Clear db after finish test
     await dbHandler.clearDatabase();
 });
-//endregion
 
 describe('Objective', function () {
     it('should create an Objective', async function () {
         // Arrange
         let objective = new Objective({
-            name: "Ir al mercado",
-            description: "Ir al mercado para las compras",
-            observations: "Irme corriendo",
-            mode: "Ordinario",
+            name: 'Ir al mercado',
+            description: 'Ir al mercado para las compras',
+            observations: 'Irme corriendo',
+            mode: 'Ordinario',
             dates: ["2021-02-03", "2021-02-04"],
         });
-        objective.save()
-
-        const createdObjective = await objectiveService.all();
+        const createdObjective = await objective.save()
 
         // Assert
         expect(createdObjective.name).toBe('Ir al mercado');

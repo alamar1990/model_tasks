@@ -12,8 +12,25 @@ const schema = new Schema({
             enum: ['Abierto', 'Cerrado', 'Híbrido'],
         },
         sections: [{
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'Section',
+            name: {
+                type: String,
+                unique: true,
+            },
+            description: String,
+            date: {
+                start: Date,
+                end: Date,
+            },
+
+            // The reference of task or objective in the current section
+            tasks_objectives: [{
+                type: Schema.Types.ObjectId,
+                refPath: 'tasksObjectivesDocument',
+            }],
+            tasksObjectivesDocument: {
+                type: String,
+                enum: ['Task', 'Objective']
+            },
         }]
     },
 );
