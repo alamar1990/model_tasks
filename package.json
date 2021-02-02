@@ -6,7 +6,8 @@
   "author": "Alain Marquez",
   "license": "MIT",
   "scripts": {
-    "dev": "nodemon -r dotenv/config src/index.js --exec babel-node"
+    "dev": "nodemon -r dotenv/config src/index.js --exec babel-node",
+    "test": "jest --runInBand ./test"
   },
   "devDependencies": {
     "@babel/cli": "^7.12.10",
@@ -19,6 +20,7 @@
   "dependencies": {
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
+    "jest": "^26.6.3",
     "mongoose": "^5.11.14"
   }
 }

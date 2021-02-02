@@ -18,7 +18,7 @@ const test = {
     db: {
         host: process.env.TEST_DB_HOST || 'localhost',
         port: parseInt(process.env.TEST_DB_PORT) || 27017,
-        name: process.env.TEST_DB_NAME || 'dofleini_models_task'
+        name: process.env.TEST_DB_NAME || 'dofleini_models_task_testdb'
     }
 };
 
