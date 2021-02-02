@@ -5,17 +5,17 @@ const schema = new Schema({
         name: {
             type: String,
             unique: true,
-            required: true,
         },
-        type: {
-            type: String,
-            enum: ['Abierto', 'Cerrado', 'Híbrido'],
+        description: String,
+        date: {
+            start: Date,
+            end: Date,
         },
-        sections: [{
+        objectives: [{
             type: mongoose.Schema.Types.ObjectId,
-            ref: 'Section',
-        }]
+            ref: 'Objective',
+        }],
     },
 );
 
-module.exports = mongoose.model('Model', schema);
+module.exports = mongoose.model('Task', schema);
