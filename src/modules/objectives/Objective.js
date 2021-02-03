@@ -12,15 +12,10 @@ const schema = new Schema({
             type: String,
             enum: ['Ordinario', 'Extraordinario'],
         },
-        dates: [{
-            type: Date,
-            validate: {
-                validator: function() {
-                    return this.dates.length <= 2;
-                },
-                message: 'El limite maximo de fechas es de 2'
-            }
-        }]
+        dates: {
+            start: Date,
+            end: Date,
+        }
     },
 );
 

@@ -20,7 +20,12 @@ describe('Objective', function () {
             description: 'Ir al mercado para las compras',
             observations: 'Irme corriendo',
             mode: 'Ordinario',
-            dates: ["2021-02-03", "2021-02-04"],
+            dates: {
+                dates: {
+                    start: "2021-02-03",
+                    end: "2021-02-03"
+                }
+            },
         }
         let objective = new Objective(objectiveData);
         const createdObjective = await objective.save()
@@ -33,7 +38,12 @@ describe('Objective', function () {
             description: 'Ir al mercado para las compras',
             observations: 'Irme corriendo',
             mode: 'Ordinario',
-            dates: ["2021-02-03", "2021-02-04"],
+            dates: {
+                dates: {
+                    start: "2021-02-03",
+                    end: "2021-02-03"
+                }
+            },
         }
         const createdObjective = await objectiveService.create(objectiveData)
         expect(createdObjective.name).toBe('Ir al mercado');
