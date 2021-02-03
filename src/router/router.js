@@ -1,7 +1,7 @@
 const express = require('express');
 const api = express.Router();
 
-// api.use('/auth', require('../modules/roles/Roles.routes'));
+api.use('/api', require('../modules/objectives/Objective.routes'));
 
 
 module.exports = api;
