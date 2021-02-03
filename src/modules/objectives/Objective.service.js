@@ -3,6 +3,7 @@
  */
 
 const {Objective} = require('./../models');
+const message = require('../messages');
 
 class ObjectiveService {
     async all(query = {}, populate = '', sort = '') {
@@ -13,6 +14,7 @@ class ObjectiveService {
     }
 
     async view(id, populate = '') {
+        if (!id) throw new Error(message.crud.noIdSent);
         let objective = await Objective.findById(id).populate(populate);
         return objective;
     }
@@ -31,7 +33,7 @@ class ObjectiveService {
     }
 
     async update(body, id) {
-        if (!id) throw new Error('Falta el user ID');
+        if (!id) throw new Error(message.crud.noIdSent);
         let objective = {};
         objective.name = body.name;
         objective.description = body.description;
@@ -43,14 +45,14 @@ class ObjectiveService {
             id,
             objective
         ).setOptions({ new: true });
-        if (!objective) throw new Error('El ID no se encuentra');
+        if (!objective) throw new Error(message.crud.noIdFound);
         return objective;
     }
 
     async remove(id) {
-        if (!id) throw new Error('Falta el user ID');
+        if (!id) throw new Error(message.crud.noIdSent);
         let objective = await Objective.findByIdAndDelete(id);
-        if (!objective) throw new Error('El ID no se encuentra');
+        if (!objective) throw new Error(message.crud.noIdFound);
         return objective;
     }
 
