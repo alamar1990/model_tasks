@@ -1,3 +1,7 @@
+/**
+ * A Rest Api basic CRUD service for Model model
+ */
+
 const {Model} = require('./../models');
 
 class ModelService {
@@ -16,6 +20,8 @@ class ModelService {
     async create(body) {
         let model = {};
         model.name = body.name;
+        model.type = body.type;
+        model.sections = body.sections;
         model = Object.assign(body, model);
         model = new Model(model);
         model = await model.save();
@@ -25,8 +31,9 @@ class ModelService {
     async update(body, id) {
         let model = {};
         model.name = body.name;
+        model.type = body.type;
+        model.sections = body.sections;
         model = Object.assign(body, model);
-
         model = await Model.findByIdAndUpdate(
             id,
             model

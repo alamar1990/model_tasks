@@ -1,3 +1,7 @@
+/**
+ * A Rest Api basic CRUD service for Objective model
+ */
+
 const {Objective} = require('./../models');
 
 class ObjectiveService {
@@ -16,6 +20,10 @@ class ObjectiveService {
     async create(body) {
         let objective = {};
         objective.name = body.name;
+        objective.description = body.description;
+        objective.observations = body.observations;
+        objective.mode = body.mode;
+        objective.dates = body.dates;
         objective = Object.assign(body, objective);
         objective = new Objective(objective);
         objective = await objective.save();
@@ -25,8 +33,11 @@ class ObjectiveService {
     async update(body, id) {
         let objective = {};
         objective.name = body.name;
+        objective.description = body.description;
+        objective.observations = body.observations;
+        objective.mode = body.mode;
+        objective.dates = body.dates;
         objective = Object.assign(body, objective);
-
         objective = await Objective.findByIdAndUpdate(
             id,
             objective
