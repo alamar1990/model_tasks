@@ -31,6 +31,7 @@ class ObjectiveService {
     }
 
     async update(body, id) {
+        if (!id) throw new Error('Falta el user ID');
         let objective = {};
         objective.name = body.name;
         objective.description = body.description;
@@ -42,11 +43,14 @@ class ObjectiveService {
             id,
             objective
         ).setOptions({ new: true });
+        if (!objective) throw new Error('El ID no se encuentra');
         return objective;
     }
 
     async remove(id) {
+        if (!id) throw new Error('Falta el user ID');
         let objective = await Objective.findByIdAndDelete(id);
+        if (!objective) throw new Error('El ID no se encuentra');
         return objective;
     }
 
