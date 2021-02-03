@@ -24,6 +24,10 @@ const schema = new Schema({
 
             // The reference of task or objective in the current section
             tasks_objectives: [{
+                kind: {
+                    type: String,
+                    enum: ['Tarea', 'Objetivo']
+                },
                 type: Schema.Types.ObjectId,
                 refPath: 'tasksObjectivesDocument',
             }],

@@ -49,4 +49,26 @@ describe('Model', function () {
         expect(model.name).toBe('Vacuna Covid');
     });
 
+    it('should define a Model with sections, tasks and objectives', async function () {
+        const modelData = {
+            name: 'Vacuna Covid',
+            type: 'Abierto',
+            sections: [{
+                name: 'Distribucion',
+                description: 'Distribucion de los frascos',
+                date: {
+                    start: '2021-02-03',
+                    end: '2021-02-10'
+                },
+                tasks_objectives: [{
+                    kind: 'Tarea',
+                    name: 'Rellenar combustible',
+                    description: 'Rellenar tanques de combustible',
+                }]
+            }],
+        }
+        let model = await modelService.create(modelData);
+        expect(model.name).toBe('Vacuna Covid');
+    });
+
 });
