@@ -48,4 +48,21 @@ describe('Objective', function () {
         const createdObjective = await objectiveService.create(objectiveData)
         expect(createdObjective.name).toBe('Ir al mercado');
     });
+
+    it('should plan an Objective', async function () {
+        const objectiveData = {
+            name: 'Ir al mercado',
+            description: 'Ir al mercado para las compras',
+            observations: 'Irme corriendo',
+            mode: 'Ordinario',
+            dates: {
+                dates: {
+                    start: "2021-02-03",
+                    end: "2021-02-03"
+                }
+            },
+        }
+        const createdObjective = await objectiveService.create(objectiveData)
+        expect(createdObjective.name).toBe('Ir al mercado');
+    });
 });

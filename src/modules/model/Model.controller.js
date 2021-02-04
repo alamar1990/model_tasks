@@ -45,7 +45,7 @@ class ModelController {
     async view(req, res) {
         try {
             let id = req.params.id;
-            const model = await modelService.view(id);
+            const model = await modelService.view(id, populate);
             return res.status(200).send(model);
         } catch (error) {
             console.error(error);

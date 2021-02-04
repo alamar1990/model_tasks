@@ -18,7 +18,6 @@ class ModelService {
                         let task = {};
                         task.name = tsk.name
                         task.description = tsk.description
-                        task.mode = tsk.mode
                         let objectivesIds = []
                         if (tsk.objectives) {
                             await Promise.all(tsk.objectives.map(async (obj) => {
@@ -32,7 +31,8 @@ class ModelService {
                                 objectivesIds.push(objective.id)
                             }));
                         }
-                        if (objectivesIds && objectivesIds.length !== 0) task.objectives = objectivesIds
+                        task.objectives = objectivesIds
+                        if (!task.objectives.length) delete task.objectives
                         task = new Task({...task});
                         task = await task.save()
                         taskIds.push(task.id)
@@ -50,12 +50,14 @@ class ModelService {
                         objective = await objective.save()
                         objectivesIds.push(objective.id)
                     }));
-                    if (objectivesIds) section.objectives = objectivesIds
+                    section.objectives = objectivesIds
+                    if (!section.objectives.length) delete section.objectives
                 }
-                if (taskIds && taskIds.length !== 0) section.tasks = taskIds
+                section.tasks = taskIds
+                if (!section.tasks.length) delete section.tasks
                 return section
         })) || ''
-        if (newSections && newSections.length !== 0) model.sections = newSections
+        if (newSections) model.sections = newSections
         model.name = body.name;
         model.type = body.type;
         model = new Model({...model});
