@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const {Schema} = mongoose;
 const {Task} = require('../models');
+const {taskService} = require('../task/Task.service');
 
 const schema = new Schema({
         name: {
@@ -20,18 +21,23 @@ const schema = new Schema({
     },
 );
 
-function updateParents(dates) {
-
+async function updateParents(next, dates) {
+    const id = mongoose.Types.ObjectId(this._id)
+    Task.updateMany({objectives: id},
+        {
+            date: {
+                start: dates.start,
+                end: dates.end
+            }
+        });
 }
 
-schema.pre('save', function(next) {
-    updateParents(this);
-    next();
+schema.post('findOneAndUpdate', async function(next) {
+    console.log('Ahora si')
+    await updateParents(next)
 });
 
-schema.pre('findByIdAndUpdate', function(next) {
-    updateParents(this);
-    next();
-});
 
 module.exports = mongoose.model('Objective', schema);
+
+

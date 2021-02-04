@@ -22,11 +22,11 @@ const schema = new Schema({
                 end: Date,
             },
             tasks: [{
-                type: Schema.Types.ObjectId,
+                type: mongoose.Types.ObjectId,
                 ref: 'Task'
             }],
             objectives: [{
-                type: Schema.Types.ObjectId,
+                type: mongoose.Types.ObjectId,
                 ref: 'Objective'
             }]
         }]

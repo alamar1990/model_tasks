@@ -6,6 +6,7 @@ const {Task} = require('./../models');
 const message = require('../messages');
 
 class TaskService {
+
     async all(query = {}, populate = '', sort = '') {
         let tasks = await Task.find(query)
             .populate(populate)

@@ -12,7 +12,7 @@ const schema = new Schema({
             end: Date,
         },
         objectives: [{
-            type: mongoose.Schema.Types.ObjectId,
+            type: mongoose.Types.ObjectId,
             ref: 'Objective',
         }],
     },
