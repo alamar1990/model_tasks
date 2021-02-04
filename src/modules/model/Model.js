@@ -21,20 +21,14 @@ const schema = new Schema({
                 start: Date,
                 end: Date,
             },
-
-            // The reference of task or objective in the current section
-            tasks_objectives: [{
-                kind: {
-                    type: String,
-                    enum: ['Tarea', 'Objetivo']
-                },
+            tasks: [{
                 type: Schema.Types.ObjectId,
-                refPath: 'tasksObjectivesDocument',
+                ref: 'Task'
             }],
-            tasksObjectivesDocument: {
-                type: String,
-                enum: ['Task', 'Objective']
-            },
+            objectives: [{
+                type: Schema.Types.ObjectId,
+                ref: 'Objective'
+            }]
         }]
     },
 );

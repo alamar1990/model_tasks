@@ -14,14 +14,14 @@ class ModelService {
         let newSections = await Promise.all(sections.map(async (section) => {
                 let taskIds = []
                 if (section.tasks){
-                    section.tasks.map( async(tsk) => {
+                    await Promise.all(section.tasks.map( async(tsk) => {
                         let task = {};
                         task.name = tsk.name
                         task.description = tsk.description
                         task.mode = tsk.mode
                         let objectivesIds = []
                         if (tsk.objectives) {
-                            tsk.objectives.map(async (obj) => {
+                            await Promise.all(tsk.objectives.map(async (obj) => {
                                 let objective = {};
                                 objective.name = obj.name
                                 objective.description = obj.description
@@ -30,17 +30,17 @@ class ModelService {
                                 objective = await new Objective({...objective})
                                 objective = await objective.save()
                                 objectivesIds.push(objective.id)
-                            });
+                            }));
                         }
-                        if (objectivesIds) task.objectives = objectivesIds
+                        if (objectivesIds && objectivesIds.length !== 0) task.objectives = objectivesIds
                         task = new Task({...task});
                         task = await task.save()
                         taskIds.push(task.id)
-                    });
+                    }));
                 }
                 if (section.objectives){
                     let objectivesIds = []
-                    section.objectives.map( async(obj) => {
+                    await Promise.all(section.objectives.map( async(obj) => {
                         let objective = {};
                         objective.name = obj.name
                         objective.description = obj.description
@@ -49,13 +49,13 @@ class ModelService {
                         objective = new Objective({...objective})
                         objective = await objective.save()
                         objectivesIds.push(objective.id)
-                    });
+                    }));
                     if (objectivesIds) section.objectives = objectivesIds
                 }
-                if (taskIds) section.tasks = taskIds
+                if (taskIds && taskIds.length !== 0) section.tasks = taskIds
                 return section
         })) || ''
-        if (newSections) model.sections = newSections
+        if (newSections && newSections.length !== 0) model.sections = newSections
         model.name = body.name;
         model.type = body.type;
         model = new Model({...model});

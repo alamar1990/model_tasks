@@ -26,8 +26,7 @@ class ObjectiveService {
         objective.observations = body.observations;
         objective.mode = body.mode;
         objective.dates = body.dates;
-        objective = Object.assign(body, objective);
-        objective = new Objective(objective);
+        objective = new Objective({...objective});
         objective = await objective.save();
         return objective;
     }
@@ -40,10 +39,9 @@ class ObjectiveService {
         objective.observations = body.observations;
         objective.mode = body.mode;
         objective.dates = body.dates;
-        objective = Object.assign(body, objective);
         objective = await Objective.findByIdAndUpdate(
             id,
-            objective
+            {...objective}
         ).setOptions({ new: true });
         if (!objective) throw new Error(message.crud.noIdFound);
         return objective;
