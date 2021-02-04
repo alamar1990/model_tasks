@@ -2,18 +2,63 @@
  * A Rest Api basic CRUD service for Model model
  */
 
-const {Model} = require('./../models');
+const {Model, Objective, Task} = require('./../models');
 const message = require('../messages');
 
 class ModelService {
-    // Metho
-    async create(body) {
+    // Business logic methods
+    async define(body) {
+        if (!body) throw new Error('No data sent')
         let model = {};
+        let sections = body.sections || null;
+        let newSections = await Promise.all(sections.map(async (section) => {
+                let taskIds = []
+                if (section.tasks){
+                    section.tasks.map( async(tsk) => {
+                        let task = {};
+                        task.name = tsk.name
+                        task.description = tsk.description
+                        task.mode = tsk.mode
+                        let objectivesIds = []
+                        if (tsk.objectives) {
+                            tsk.objectives.map(async (obj) => {
+                                let objective = {};
+                                objective.name = obj.name
+                                objective.description = obj.description
+                                objective.observations = obj.observations
+                                objective.mode = obj.mode
+                                objective = await new Objective({...objective})
+                                objective = await objective.save()
+                                objectivesIds.push(objective.id)
+                            });
+                        }
+                        if (objectivesIds) task.objectives = objectivesIds
+                        task = new Task({...task});
+                        task = await task.save()
+                        taskIds.push(task.id)
+                    });
+                }
+                if (section.objectives){
+                    let objectivesIds = []
+                    section.objectives.map( async(obj) => {
+                        let objective = {};
+                        objective.name = obj.name
+                        objective.description = obj.description
+                        objective.observations = obj.observations
+                        objective.mode = obj.mode
+                        objective = new Objective({...objective})
+                        objective = await objective.save()
+                        objectivesIds.push(objective.id)
+                    });
+                    if (objectivesIds) section.objectives = objectivesIds
+                }
+                if (taskIds) section.tasks = taskIds
+                return section
+        })) || ''
+        if (newSections) model.sections = newSections
         model.name = body.name;
         model.type = body.type;
-        model.sections = body.sections;
-        model = Object.assign(body, model);
-        model = new Model(model);
+        model = new Model({...model});
         model = await model.save();
         return model;
     }
@@ -24,8 +69,8 @@ class ModelService {
     }
 
     // CRUD methods
-    async all(query = {}, populate = '', sort = '') {
-        let models = await Model.find(query)
+    async all(populate = '', sort = '') {
+        let models = await Model.find({})
             .populate(populate)
             .sort(sort);
         return models;
@@ -43,7 +88,7 @@ class ModelService {
         model.type = body.type;
         model.sections = body.sections;
         model = Object.assign(body, model);
-        model = new Model(model);
+        model = new Model({...model});
         model = await model.save();
         return model;
     }
@@ -54,10 +99,9 @@ class ModelService {
         model.name = body.name;
         model.type = body.type;
         model.sections = body.sections;
-        model = Object.assign(body, model);
         model = await Model.findByIdAndUpdate(
             id,
-            model
+            {...model}
         ).setOptions({ new: true });
         if (!model) throw new Error(message.crud.noIdFound);
         return model;

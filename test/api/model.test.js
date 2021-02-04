@@ -49,26 +49,51 @@ describe('Model', function () {
         expect(model.name).toBe('Vacuna Covid');
     });
 
-    it('should define a Model with sections, tasks and objectives', async function () {
+    it('should define a Model with sections, tasks and/or objectives', async function () {
         const modelData = {
             name: 'Vacuna Covid',
             type: 'Abierto',
             sections: [{
                 name: 'Distribucion',
                 description: 'Distribucion de los frascos',
-                date: {
-                    start: '2021-02-03',
-                    end: '2021-02-10'
+                tasks: [
+                    {
+                        name: 'Rellenar combustible',
+                        description: 'Rellenar tanques de combustible',
+                        objectives: [{
+                                name: 'Recargar tarjetas de combustible',
+                                description: 'Recargar tarjetas',
+                                observations: 'Ninguna',
+                                mode: 'Ordinario',
+                            },
+                            {
+                                name: 'Alistar transporte',
+                                description: 'Dejar listo medios de transporte',
+                                observations: 'Ninguna',
+                                mode: 'Extraordinario',
+                            }
+                        ]
+                    }
+                ]
+            }, {
+                name: 'Aplicacion de la vacuna',
+                description: 'Pinchar a to el que venga',
+                objectives: [{
+                    name: 'Esterilizar agujas',
+                    description: 'Esterilizar agujas',
+                    observations: 'Ninguna',
+                    mode: 'Ordinario',
                 },
-                tasks_objectives: [{
-                    kind: 'Tarea',
-                    name: 'Rellenar combustible',
-                    description: 'Rellenar tanques de combustible',
+                {
+                    name: 'Aplicar vacuna',
+                    description: 'Pinchar sin piedad',
+                    observations: 'Ninguna',
+                    mode: 'Extraordinario',
                 }]
             }],
         }
-        let model = await modelService.create(modelData);
-        expect(model.name).toBe('Vacuna Covid');
+        let model = await modelService.define(modelData);
+        expect(model.name).toBe(modelData.name);
     });
 
 });
