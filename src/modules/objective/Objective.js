@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const {Schema} = mongoose;
+const {Task} = require('../models');
 
 const schema = new Schema({
         name: {
@@ -18,5 +19,19 @@ const schema = new Schema({
         }
     },
 );
+
+function updateParents(dates) {
+
+}
+
+schema.pre('save', function(next) {
+    updateParents(this);
+    next();
+});
+
+schema.pre('findByIdAndUpdate', function(next) {
+    updateParents(this);
+    next();
+});
 
 module.exports = mongoose.model('Objective', schema);

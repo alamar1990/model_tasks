@@ -1,9 +1,9 @@
 const express = require('express');
 const { resource } = require('../../router/resource');
-const { controller } = require('./Objective.controller');
+const { controller } = require('./Task.controller');
 
 const api = express.Router();
 
-api.use('/objective', resource(controller));
+api.use('/tasks', resource(controller));
 
 module.exports = api;

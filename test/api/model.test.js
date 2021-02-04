@@ -49,7 +49,7 @@ describe('Model', function () {
         expect(model.name).toBe('Vacuna Covid');
     });
 
-    it('should define a Model with sections, tasks and/or objectives', async function () {
+    it('should define a Model with section, tasks and/or objective', async function () {
         const modelData = {
             name: 'Vacuna Covid',
             type: 'Abierto',

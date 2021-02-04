@@ -2,6 +2,21 @@ const message = require('../messages');
 const {objectiveService} = require('./Objective.service');
 
 class ObjectiveController {
+    // Business Logic methods
+    async plan(req, res){
+        try {
+            const dates = req.body.dates
+            return res.status(200).send(dates);
+        } catch (error) {
+            console.error(error);
+            return res.status(500).send({
+                error: message.error.update,
+                message: error.message
+            });
+        }
+    }
+
+    // CRUD methods
     async all(req, res) {
         try {
             const objectives = await objectiveService.all();

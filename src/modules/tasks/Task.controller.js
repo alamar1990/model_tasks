@@ -1,39 +1,13 @@
 const message = require('../messages');
-const {modelService} = require('./Model.service');
+const {taskService} = require('./Task.service');
 
-// Populate and deep populate referenced collections
-const populate = [{
-        path: 'section.tasks',
-        populate: {
-            path: 'objectives',
-            model: 'Objective'
-        }
-    },
-    {
-        path: 'section.objective',
-}]
-
-// const populate = 'section.tasks section.tasks.objective section.objective'
-class ModelController {
-    // Business Logic methods
-    async define(req, res) {
-        try {
-            const model = await modelService.define(req.body);
-            return res.status(200).send(model);
-        } catch (error) {
-            console.error(error);
-            return res.status(500).send({
-                message: message.error.server
-            });
-        }
-    }
-
+class TaskController {
 
     // CRUD methods
     async all(req, res) {
         try {
-            const models = await modelService.all(populate);
-            return res.status(200).send(models);
+            const tasks = await taskService.all();
+            return res.status(200).send(tasks);
         } catch (error) {
             console.error(error);
             return res.status(500).send({
@@ -45,8 +19,8 @@ class ModelController {
     async view(req, res) {
         try {
             let id = req.params.id;
-            const model = await modelService.view(id, populate);
-            return res.status(200).send(model);
+            const task = await taskService.view(id);
+            return res.status(200).send(task);
         } catch (error) {
             console.error(error);
             return res.status(500).send({
@@ -58,8 +32,8 @@ class ModelController {
 
     async create(req, res) {
         try {
-            const createdModel = await modelService.create(req.body);
-            return res.status(200).send(createdModel);
+            const createdTask = await taskService.create(req.body);
+            return res.status(200).send(createdTask);
         } catch (error) {
             console.error(error);
             return res.status(500).send({
@@ -72,8 +46,8 @@ class ModelController {
     async update(req, res) {
         try {
             const id = req.params.id;
-            const updatedModel = await modelService.update(req.body, id);
-            return res.status(200).send(updatedModel);
+            const updatedTask = await taskService.update(req.body, id);
+            return res.status(200).send(updatedTask);
         } catch (error) {
             console.error(error);
             return res.status(500).send({
@@ -86,8 +60,8 @@ class ModelController {
     async remove(req, res) {
         try {
             const id = req.params.id;
-            const removedModel = await modelService.remove(id);
-            return res.status(200).send(removedModel);
+            const removedTask = await taskService.remove(id);
+            return res.status(200).send(removedTask);
         } catch (error) {
             console.error(error);
             return res.status(500).send({
@@ -99,4 +73,4 @@ class ModelController {
 
 }
 
-module.exports.controller = new ModelController();
+module.exports.controller = new TaskController();
