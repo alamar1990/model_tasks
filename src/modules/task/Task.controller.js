@@ -1,12 +1,14 @@
 const message = require('../messages');
 const {taskService} = require('./Task.service');
-
+const populate = [{
+    path: 'objectives'
+}]
 class TaskController {
 
     // CRUD methods
     async all(req, res) {
         try {
-            const tasks = await taskService.all();
+            const tasks = await taskService.all({}, populate);
             return res.status(200).send(tasks);
         } catch (error) {
             console.error(error);
@@ -19,7 +21,7 @@ class TaskController {
     async view(req, res) {
         try {
             let id = req.params.id;
-            const task = await taskService.view(id);
+            const task = await taskService.view(id, populate);
             return res.status(200).send(task);
         } catch (error) {
             console.error(error);
