@@ -3,17 +3,16 @@ const {modelService} = require('./Model.service');
 
 // Populate and deep populate referenced collections
 const populate = [{
-        path: 'section.tasks',
+        path: 'sections.tasks',
         populate: {
             path: 'objectives',
             model: 'Objective'
         }
     },
     {
-        path: 'section.objective',
+        path: 'sections.objectives',
 }]
 
-// const populate = 'section.tasks section.tasks.objective section.objective'
 class ModelController {
     // Business Logic methods
     async define(req, res) {

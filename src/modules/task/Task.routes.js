@@ -4,6 +4,6 @@ const { controller } = require('./Task.controller');
 
 const api = express.Router();
 
-api.use('/tasks', resource(controller));
+api.use('/task', resource(controller));
 
 module.exports = api;
