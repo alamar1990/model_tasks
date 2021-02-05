@@ -3,6 +3,6 @@
 */
 
 exports.Model = require('./model/Model');
-exports.Section = require('./section/Section');
 exports.Task = require('./task/Task');
 exports.Objective = require('./objective/Objective');
+exports.User = require('./user/User');
