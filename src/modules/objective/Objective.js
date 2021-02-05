@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const {Schema} = mongoose;
-const {Task} = require('../models');
+const {Task, Model} = require('../models');
 const {taskService} = require('../task/Task.service');
 
 const schema = new Schema({
@@ -21,22 +21,34 @@ const schema = new Schema({
     },
 );
 
-async function updateParents(next, dates) {
-    const id = mongoose.Types.ObjectId(this._id)
-    Task.updateMany({objectives: id},
+async function updateParents(result) {
+    const objectiveId = result._id || null
+    if (!objectiveId || !result.dates.start || !result.dates.end) return
+
+    let taskIds = await Task.find({objectives: objectiveId}).select('id').lean()
+    taskIds.reduce((acc, el) => acc.concat(el._id), [])
+
+    for (const taskId of taskIds) {
+        await Task.updateMany({_id: taskId},
         {
             date: {
-                start: dates.start,
-                end: dates.end
+                start: result.dates.start,
+                end: result.dates.end
             }
         });
+        await Model.updateMany(
+            {'sections.tasks': taskId},
+            {
+                'sections.$.date.start': result.dates.start,
+                'sections.$.date.end': result.dates.end
+            }
+        );
+    }
 }
 
-schema.post('findOneAndUpdate', async function(next) {
-    console.log('Ahora si')
-    await updateParents(next)
+schema.post(/^(updateOne|updateMany|save|findOneAndUpdate)/, async function(result) {
+    await updateParents(result)
 });
-
 
 module.exports = mongoose.model('Objective', schema);
 
