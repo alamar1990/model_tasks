@@ -2,10 +2,47 @@
  * A Rest Api basic CRUD service for Objective model
  */
 
-const {Objective} = require('./../models');
+const {Objective, Model, Task} = require('./../models');
 const message = require('../messages');
 
 class ObjectiveService {
+    // Business Logic methods
+    async plan(dates, objectiveId){
+        try {
+            if (!objectiveId || !dates.start || !dates.end) return
+            await Objective.updateOne({_id: objectiveId},
+                {
+                    dates: {
+                        start: dates.start,
+                        end: dates.end
+                    }
+                });
+
+            let taskIds = await Task.find({objectives: objectiveId}).select('id').lean()
+            taskIds.reduce((acc, el) => acc.concat(el._id), [])
+            for (const taskId of taskIds) {
+                await Task.updateMany({_id: taskId},
+                    {
+                        date: {
+                            start: dates.start,
+                            end: dates.end
+                        }
+                    });
+                await Model.updateMany(
+                    {'sections.tasks': taskId},
+                    {
+                        'sections.$.date.start': dates.start,
+                        'sections.$.date.end': dates.end
+                    }
+                );
+            }
+        } catch (e) {
+            throw e;
+        }
+    }
+
+
+    // CRUD methods
     async all(query = {}, populate = '', sort = '') {
         let objectives = await Objective.find(query)
             .populate(populate)

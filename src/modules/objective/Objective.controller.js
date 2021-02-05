@@ -1,30 +1,16 @@
-
-
 const message = require('../messages');
-const mongoose = require('mongoose');
 const {objectiveService} = require('./Objective.service');
-const {Task} = require('../models');
 
 class ObjectiveController {
     // Business Logic methods
     async plan(req, res){
         try {
             const dates = req.body.dates
-            // let tasks = await Task.find({objectives: mongoose.Types.ObjectId('601c58d2c202f63ad8227985')})
-
-
-
-            // for (let task of tasks){
-            //     task.dates.start = dates.start
-            //     task.dates.end = dates.end
-            //     task.save()
-            // }
-            // await Promise.all(tasks.map( (task) => {
-            //
-            //
-            // }));
-
-            return res.status(200).send(tasks);
+            const objectiveId = req.params.id
+            await objectiveService.plan(dates, objectiveId)
+            return res.status(200).send({
+                message: 'Success'
+            });
         } catch (error) {
             console.error(error);
             return res.status(500).send({
