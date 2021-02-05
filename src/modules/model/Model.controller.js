@@ -27,6 +27,23 @@ class ModelController {
         }
     }
 
+    async implant(req, res){
+        try {
+            const data = req.body
+            const modelId = req.params.id
+            const result = await modelService.implant(data, populate, modelId)
+            return res.status(200).send({
+                message: result
+            });
+        } catch (error) {
+            console.error(error);
+            return res.status(500).send({
+                error: message.error.update,
+                message: error.message
+            });
+        }
+    }
+
 
     // CRUD methods
     async all(req, res) {

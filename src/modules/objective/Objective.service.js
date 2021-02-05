@@ -41,7 +41,6 @@ class ObjectiveService {
         }
     }
 
-
     // CRUD methods
     async all(query = {}, populate = '', sort = '') {
         let objectives = await Objective.find(query)

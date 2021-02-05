@@ -65,9 +65,31 @@ class ModelService {
         return model;
     }
 
-    async query(query = {}, populate = '', fields = '') {
-        const model = await Model.find(query, fields).populate(populate);
-        return model;
+    async implant(data, populate, modelId){
+        try {
+            let model = await Model.findById(modelId).populate(populate).select('sections').lean();
+            let objectivesFromSections = model.sections ? model.sections.map((section) => {return section.objectives}) : ''
+            objectivesFromSections = objectivesFromSections.reduce((acc, el) => acc.concat(el), [])
+
+            let objectivesFromTasks = model.sections ? model.sections.map((section) => {
+                return section.tasks.map(((task) => {
+                    return task.objectives
+                }))
+            }) : ''
+            objectivesFromTasks = objectivesFromTasks.reduce((acc, el) => acc.concat(el), []).reduce((acc, el) => acc.concat(el), [])
+            const objectives = [...objectivesFromTasks, ...objectivesFromSections]
+
+            await Promise.all(objectives.map(async (objective)=>{
+                await Objective.updateOne({_id: objective._id},
+                    {
+                        observations: data.observations,
+                        mode: data.mode
+                    });
+            }))
+            return {data, modelId}
+        } catch (e) {
+            throw e;
+        }
     }
 
     // CRUD methods
@@ -116,7 +138,10 @@ class ModelService {
         return model;
     }
 
-
+    async query(query = {}, populate = '', fields = '') {
+        const model = await Model.find(query, fields).populate(populate);
+        return model;
+    }
 }
 
 module.exports.modelService = new ModelService();
