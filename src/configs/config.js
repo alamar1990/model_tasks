@@ -28,5 +28,7 @@ const config = {
 };
 
 module.exports = {
-    config: config[env || 'dev']
+    config: config[env || 'dev'],
+    jwtSecret: 'hereIsASecret_CodeMoreThanStudy',
+    jwtExpiration: '45d',
 };
