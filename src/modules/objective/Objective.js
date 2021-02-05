@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 const {Schema} = mongoose;
-const {Task, Model} = require('../models');
 
 const schema = new Schema({
         name: {

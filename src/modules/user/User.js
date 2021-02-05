@@ -4,7 +4,10 @@ const {Schema} = mongoose;
 const {saltRounds} = require('../../configs/config');
 
 const schema = new Schema({
-        name: String,
+        name: {
+            type: String,
+            required: true,
+        },
         lastname: String,
         email: {
             type: String,
