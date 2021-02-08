@@ -11,6 +11,6 @@ api.use('/api', require('../modules/task/Task.routes'));
 api.use('/api', require('../modules/user/User.routes'));
 api.use('/api/auth', require('../modules/auth/Auth.routes'));
 
-api.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+api.use('/', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 module.exports = api;

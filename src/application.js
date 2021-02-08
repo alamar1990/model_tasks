@@ -9,9 +9,4 @@ app.use(express.json());
 // Configure Routes
 app.use(router);
 
-
-app.get('/', ((req, res) => {
-    res.send('HELLO Model Task app')
-}))
-
 module.exports = app;

@@ -13,8 +13,28 @@
   "basePath": "/",
   "tags": [
     {
+      "name": "Auth",
+      "description": "Autenticación y registro"
+    },
+    {
+      "name": "APITasks",
+      "description": "Tareas especificas de la api"
+    },
+    {
       "name": "Users",
-      "description": "API for users in the system"
+      "description": "Gestiona los usuarios del sistema"
+    },
+    {
+      "name": "Models",
+      "description": "Gestiona los modelos de la api"
+    },
+    {
+      "name": "Tasks",
+      "description": "Gestiona las tareas de la api"
+    },
+    {
+      "name": "Objectives",
+      "description": "Gestiona los objetivos de la api"
     }
   ],
   "schemes": [
@@ -26,11 +46,99 @@
   "produces": [
     "application/json"
   ],
+
   "paths": {
-    "/api/user": {
+    "/api/auth/register": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Registra un usuario y devuelve su token para consumir servicios",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/AuthRegister"
+            }
+          }
+        }
+      }
+    },
+    "/api/auth/login": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Autentica un usuario previamente registrado y devuelve su token para consumir servicios",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/AuthLogin"
+            }
+          }
+        }
+      }
+    },
+
+    "/api/model/define": {
+      "post": {
+        "tags": [
+          "APITasks"
+        ],
+        "summary": "Define un modelo con toda su estructura de secciones, tareas, objetivos",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Define"
+            }
+          }
+        }
+      }
+    },
+    "/api/objective/{id}/plan": {
+      "post": {
+        "tags": [
+          "APITasks"
+        ],
+        "summary": "Define la fecha de un objetivo, y modifica la fecha de sus tareas/secciones padres",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Plan"
+            }
+          }
+        }
+      }
+    },
+    "/api/model/{id}/implant": {
+      "post": {
+        "tags": [
+          "APITasks"
+        ],
+        "summary": "Define observaciones y modo a los objetivos de un modelo",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Implant"
+            }
+          }
+        }
+      }
+    },
+
+    "/api/user/": {
       "get": {
         "tags": [
-          "User"
+          "Users"
         ],
         "summary": "Obtiene todos los usuarios",
         "responses": {
@@ -41,12 +149,10 @@
             }
           }
         }
-      }
-    },
-    "/api/user": {
+      },
       "post": {
         "tags": [
-          "User"
+          "Users"
         ],
         "summary": "Inserta un usuario",
         "responses": {
@@ -58,10 +164,360 @@
           }
         }
       }
+    },
+    "/api/user/{id}": {
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Obtiene un usuario pasando ID como parametro",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Modifica un usuario",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Elimina un usuario pasando su ID como parametro",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        }
+      }
+    },
+
+    "/api/model/": {
+      "get": {
+        "tags": [
+          "Models"
+        ],
+        "summary": "Obtiene todos los modelos",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Model"
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Models"
+        ],
+        "summary": "Inserta un modelo",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Model"
+            }
+          }
+        }
+      }
+    },
+    "/api/model/{id}": {
+      "get": {
+        "tags": [
+          "Models"
+        ],
+        "summary": "Obtiene un modelo pasando ID como parametro",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Model"
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Models"
+        ],
+        "summary": "Modifica un modelo pasando ID como parametro",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Model"
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Models"
+        ],
+        "summary": "Elimina un modelo pasando su ID como parametro",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        }
+      }
+    },
+
+    "/api/task/": {
+      "get": {
+        "tags": [
+          "Tasks"
+        ],
+        "summary": "Obtiene todos las tareas",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Task"
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Tasks"
+        ],
+        "summary": "Inserta una tarea",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Task"
+            }
+          }
+        }
+      }
+    },
+    "/api/task/{id}": {
+      "get": {
+        "tags": [
+          "Tasks"
+        ],
+        "summary": "Obtiene una tarea pasando ID como parametro",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Task"
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Tasks"
+        ],
+        "summary": "Modifica una tarea pasando ID como parametro",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Task"
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Tasks"
+        ],
+        "summary": "Elimina una tarea pasando su ID como parametro",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Task"
+            }
+          }
+        }
+      }
+    },
+
+    "/api/objective/": {
+      "get": {
+        "tags": [
+          "Objectives"
+        ],
+        "summary": "Obtiene todos los objetivos",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Objective"
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Objectives"
+        ],
+        "summary": "Inserta un objetivo",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Objective"
+            }
+          }
+        }
+      }
+    },
+    "/api/objective/{id}": {
+      "get": {
+        "tags": [
+          "Objectives"
+        ],
+        "summary": "Obtiene un objetivo pasando ID como parametro",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Objective"
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Objectives"
+        ],
+        "summary": "Modifica un objetivo ID como parametro",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Objective"
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Objectives"
+        ],
+        "summary": "Elimina un objetivo pasando su ID como parametro",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Objective"
+            }
+          }
+        }
+      }
     }
+
   },
 
   "definitions": {
+    "AuthRegister": {
+      "type": "object",
+      "example":{
+        "name": "Alain",
+        "lastname": "Marquez",
+        "email": "alain@alain.com",
+        "password": "Pepe",
+        "active": true
+      }
+    },
+    "AuthLogin": {
+      "type": "object",
+      "example": {
+        "email": "alain@alain.com",
+        "password": "Pepe"
+      }
+    },
+
+    "Plan": {
+      "type": "object",
+      "example": {
+        "dates": {
+          "start": "2021-02-03",
+          "end": "2021-02-03"
+        }
+      }
+    },
+    "Define": {
+      "type": "object",
+      "example": {
+        "name": "Vacuna Covid",
+        "type": "Abierto",
+        "sections": [{
+          "name": "Distribucion",
+          "description": "Distribucion de los frascos",
+          "tasks": [
+            {
+              "name": "Rellenar combustible",
+              "description": "Rellenar tanques de combustible",
+              "objectives": [{
+                "name": "Recargar tarjetas de combustible",
+                "description": "Recargar tarjetas",
+                "observations": "Ninguna",
+                "mode": "Ordinario"
+              },
+                {
+                  "name": "Alistar transporte",
+                  "description": "Dejar listo medios de transporte",
+                  "observations": "Ninguna",
+                  "mode": "Extraordinario"
+                }
+              ]
+            }
+          ]
+        }, {
+          "name": "Aplicacion de la vacuna",
+          "description": "Pinchar a to el que venga",
+          "objectives": [{
+            "name": "Esterilizar agujas",
+            "description": "Esterilizar agujas",
+            "observations": "Ninguna",
+            "mode": "Ordinario"
+          },
+            {
+              "name": "Aplicar vacuna",
+              "description": "Pinchar sin piedad",
+              "observations": "Ninguna",
+              "mode": "Extraordinario"
+            }]
+        }]
+      }
+    },
+    "Implant": {
+      "type": "object",
+      "example": {
+        "observations": "Ninguna",
+        "mode": "Ordinario"
+      }
+    },
+
     "User": {
       "required": [
         "name",
